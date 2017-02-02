@@ -1,0 +1,6 @@
+.ng-dirty{
+	border-color:green;
+}
+.ng-pristine{
+	border-color: #FA787E;
+}
