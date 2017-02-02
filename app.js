@@ -1,4 +1,4 @@
-var myStore = angular.module("myStore", ['storeReviews'])
+var myStore = angular.module("myStore", ['myOtherStore'])
 
 	var gems = [
 	{
@@ -238,10 +238,55 @@ var myStore = angular.module("myStore", ['storeReviews'])
 		}
 		]
 
-
+myStore.controller("myStoreController", function($scope){
+	    $scope.gems = gems
+			
+	
+})
 
 /*Panel Controller*/
+myStore.controller("myPanelController", function($scope){
+	$scope.tab = 1;
 
+	$scope.selectTab = function(setTab){
+		$scope.tab = setTab;
+	}
+
+	$scope.isSelected =function(checkTab){
+		return $scope.tab === checkTab;
+	}
+})
 
 /* Reviews Controller */
+myStore.controller('myReviewsController', function(){
+	this.reviews = {}
 
+	this.addReview = function(product){
+		
+		if(!product.reviews)
+			product.reviews =[]
+
+		product.reviews.push(this.reviews)
+		this.reviews = {}
+	}
+})
+
+
+
+
+
+
+
+
+
+
+
+
+ var myOtherStore = angular.module("myOtherStore", [])
+ myOtherStore.directive('myDirective', function(){
+	 return{
+		template: '<div> I am another store inside of another angular module </div>'
+	};
+
+
+});
