@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<script type="text/javascript" src="modules/reviews.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="controllers/myStoreController.js"></script>
 	<script type="text/javascript" src="controllers/myPanelController.js"></script>
@@ -13,13 +14,17 @@
 <body>
 <div class="container">
 <div ng-controller="myStoreController" class="row">
-	<div ng-repeat="product in gems | orderBy: '-price' " class="col-md-4">
+	<div ng-repeat="product in gems" class="col-md-4">
 		<div class="panel-heading">
 			<h1>{{product.name }}</h1>
 		</div>
 		<div class="panel-body">
-			<img ng-repeat="image in product.images" ng-src='{{image.full}}'/>
-
+			<div>
+				<img ng-repeat="image in product.images" ng-src='{{image.full}}'/>
+			</div>
+				<h2 >{{product.price | currency}}</h2>
+				<button ng-show="product.canPurchase" class="btn btn-success">Add to Cart</button>
+		</div>
 			<section ng-init="tab = 1" ng-controller="myPanelController">
 				<ul class="nav nav-pills">
 					<li ng-class="{ active:isSelected(1) }"><a ng-click="selectTab(1)">Description</a></li>
@@ -27,66 +32,20 @@
 					<li ng-class="{ active: isSelected(3) }"><a ng-click="selectTab(3)">Reviews</a></li>
 				</ul>
 			
-		
-				<h1 class="panel panel-default">{{product.name }}</h1>
-			
-				<h2 >{{product.price | currency}}</h2>
-			</div>
 			
 				<div class="panel" ng-show = "isSelected(1)">
 					<h4>Description</h4>
-					<p>{{product.description}}</p>
+					<blockquote>{{product.description}}</blockquote>
 				</div>
 				<div class="panel" ng-show = "isSelected(2)">
 					<h4>Specifications</h4>
 					<blockquote>Nothing yet</blockquote>
 				</div>
-				
-
-				<form name="reviewForm"  ng-show = "isSelected(3)" ng-controller="myReviewsController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
-					<div class="panel">
-						<h4>Reviews</h4>
-						<blockquote ng-repeat="reviews in product.reviews">
-							<b>
-								{{reviews.stars}}
-								{{reviews.body}}
-							</b>
-							<cite>
-								{{reviews.author}}
-							</cite>
-						</blockquote>
-                        <blockquote>
-							<b>
-								{{reviewCtrl.reviews.stars}}
-								{{reviewCtrl.reviews.body}}
-							</b>
-							<cite>
-								{{reviewCtrl.reviews.author}}
-							</cite>
-						</blockquote>
+				<div ng-app="storeReviews">
+					<div class="panel" ng-show="isSelected(3)" reviews ng-controller="ReviewsController">	
 					</div>
-					<select ng-model="reviewCtrl.reviews.stars" required class="form-control">
-						<option value="1">1 star</option>
-						<option value="2">2 star</option>
-						<option value="3">3 star</option>
-						<option value="4">4 star</option>
-						<option value="5">5 star</option>
-					</select>
-					<textarea class="form-control" ng-class="ng-pristine ng-dirty" ng-model="reviewCtrl.reviews.body" required></textarea>
-					<label class="form-control">by:</label>
-					<input class="form-control" ng-class="ng-pristine ng-dirty" type="email" name="email" ng-model="reviewCtrl.reviews.author" required>
-					<input type="submit">
-				</form>
+				</div>
 			</section>
-			<button ng-show="product.canPurchase" class="btn btn-success">Add to Cart</button>
-		</div>
-	</div>
-	<br>
-</div>
-
-
-<div id="otherStore" ng-app="myOtherStore">
-	<my-directive></my-directive>
 </div>
 
 </body>

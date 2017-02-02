@@ -1,4 +1,4 @@
-var myStore = angular.module("myStore", ['myOtherStore'])
+var myStore = angular.module("myStore", ['storeReviews'])
 
 	var gems = [
 	{
@@ -245,23 +245,3 @@ var myStore = angular.module("myStore", ['myOtherStore'])
 
 /* Reviews Controller */
 
-
-
-
-
-
-
-
-
-
-
-
-
- var myOtherStore = angular.module("myOtherStore", [])
- myOtherStore.directive('myDirective', function(){
-	 return{
-		template: '<div> I am another store inside of another angular module </div>'
-	};
-
-
-});
